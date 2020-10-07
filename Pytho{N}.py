@@ -1,9 +1,12 @@
 #!/bin/python3
+# -*- coding: utf-8 -*-
 
 import codecs
 import re 
 import os
 import shutil
+import getopt
+import sys
 
 TMP_FOLDER=".tmp_pythoN"
 if os.name == 'nt': # verificar se eh windows
@@ -90,9 +93,14 @@ def pre_compile_and_save_all_files(source_path):
     for ext_file in ext_files:
         save_source(TMP_FOLDER+SEPARATOR+ext_file,pre_compile(read_source(ext_file)[0]))
 
-def run_file(python_ver,filename,args=''):
-    full_cmd='python{} {} {}'.format(python_ver,filename,args)
-    print(full_cmd)
+def PythoN(python_ver,filename,args=''):
+    if filename:
+        pre_compile_and_save_all_files(filename)
+        filename=TMP_FOLDER+SEPARATOR+filename
+        full_cmd='python{} {} {}'.format(python_ver,filename,args)
+    else:
+        full_cmd='python{} {}'.format(python_ver,args)
+    print('{}\n'.format(full_cmd))
     try:
         os.system(full_cmd)
     except Exception as e: 
@@ -102,6 +110,29 @@ def run_file(python_ver,filename,args=''):
         delete_folder(TMP_FOLDER)
 
 
-pre_compile_and_save_all_files('examples/basic.py')
-run_file(3,TMP_FOLDER+SEPARATOR+'examples/basic.py')
+def main(argv):
+    HELP_STR=r'Pytho{N}.py [-v <value>]'
+    python_ver=3
+    args=[]
+    try:
+        opts, args = getopt.getopt(argv,"hv:",["version="])
+    except getopt.GetoptError:
+        print (HELP_STR)
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print (HELP_STR)
+            sys.exit()
+        elif opt in ("-v", "--version"):
+            python_ver=arg
+    sourcename=""
+    for arg in args:
+        if re.match(r'^.*\.py$', arg):
+            sourcename=arg
+            args.remove(arg)
+            break
+    PythoN(python_ver,sourcename,' '.join(args))
 
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
