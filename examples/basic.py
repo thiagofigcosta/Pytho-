@@ -18,7 +18,7 @@ if 13 > 14{
 print('')
 print('10 reasons why you should use Pytho{\}')
 for i in range(10){
-    print ("{} Because I rate : and tab".format(i))
+print ("{} Because I rate : and tab".format(i)) # no ident here
 }
 
 ext.print_ext_file()
