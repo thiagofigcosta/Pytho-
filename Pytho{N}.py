@@ -5,10 +5,29 @@ import re
 import os
 import shutil
 
+TMP_FOLDER=".tmp_pythoN"
+if os.name == 'nt': # verificar se eh windows
+     SEPARATOR="\\"
+else:
+     SEPARATOR="/"
+
+def create_folder_if_not_exists(path):
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
+
 def read_source(path):
-    work_dir=re.search(r'(.*?)\/',path).group()
-    file_content = codecs.open(path, "r", "utf-8").read()
+    work_dir=re.search(r'(.*)[\/|\\]',path).group()
+    file = codecs.open(path, "r", "utf-8")
+    file_content = file.read()
+    file.close()
     return file_content,work_dir
+
+def save_source(path,content):
+    work_dir=re.search(r'(.*)[\/|\\]',path).group()
+    create_folder_if_not_exists(work_dir)
+    file = codecs.open(path, "w", "utf-8")
+    file.write(content)
+    file.close()
 
 def remove_string_contents(str):
     return re.sub(r'([\"\'])(?:(?=(\\?))\2.)*?\1','',str)
@@ -43,10 +62,6 @@ def replace_last(str,a,b):
 def replace_first(str,a,b):
     return str.replace(a,b,1)
 
-def create_folder_if_not_exists(path):
-    if not os.path.exists(path):
-        os.makedirs(path, exist_ok=True)
-
 def delete_folder(path):
     try:
         shutil.rmtree(path)
@@ -70,11 +85,23 @@ def pre_compile(content):
         parsed_lines+=line+'\n'
     return parsed_lines            
 
+def pre_compile_and_save_all_files(source_path):
+    ext_files=get_custom_imported_files_recursively(source_path)
+    for ext_file in ext_files:
+        save_source(TMP_FOLDER+SEPARATOR+ext_file,pre_compile(read_source(ext_file)[0]))
 
-# file_content,work_dir=read_source('examples/basic.py')
-# print(get_custom_imported_files_recursively('examples/basic.py'))
-#print(pre_compile(read_source('examples/basic.py')[0]))
+def run_file(python_ver,filename,args=''):
+    full_cmd='python{} {} {}'.format(python_ver,filename,args)
+    print(full_cmd)
+    try:
+        os.system(full_cmd)
+    except Exception as e: 
+        delete_folder(TMP_FOLDER)
+        raise e
+    finally:
+        delete_folder(TMP_FOLDER)
 
-TMP_FOLDER=".tmp_pythoN"
-#create_folder_if_not_exists(TMP_FOLDER)
-#delete_folder(TMP_FOLDER)
+
+pre_compile_and_save_all_files('examples/basic.py')
+run_file(3,TMP_FOLDER+SEPARATOR+'examples/basic.py')
+
