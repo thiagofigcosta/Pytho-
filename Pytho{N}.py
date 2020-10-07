@@ -3,6 +3,7 @@
 import codecs
 import re 
 import os
+import shutil
 
 def read_source(path):
     work_dir=re.search(r'(.*?)\/',path).group()
@@ -42,6 +43,16 @@ def replace_last(str,a,b):
 def replace_first(str,a,b):
     return str.replace(a,b,1)
 
+def create_folder_if_not_exists(path):
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
+
+def delete_folder(path):
+    try:
+        shutil.rmtree(path)
+    except OSError as e:
+        pass
+
 def pre_compile(content):
     parsed_lines=""
     lines = content.split('\n')
@@ -59,7 +70,11 @@ def pre_compile(content):
         parsed_lines+=line+'\n'
     return parsed_lines            
 
+
 # file_content,work_dir=read_source('examples/basic.py')
 # print(get_custom_imported_files_recursively('examples/basic.py'))
-print(pre_compile(read_source('examples/basic.py')[0]))
+#print(pre_compile(read_source('examples/basic.py')[0]))
 
+TMP_FOLDER=".tmp_pythoN"
+#create_folder_if_not_exists(TMP_FOLDER)
+#delete_folder(TMP_FOLDER)
