@@ -19,7 +19,11 @@ def create_folder_if_not_exists(path):
         os.makedirs(path, exist_ok=True)
 
 def read_source(path):
-    work_dir=re.search(r'(.*)[\/|\\]',path).group()
+    work_dir_regex=re.search(r'(.*)[\/|\\]',path)
+    if work_dir_regex:
+        work_dir=work_dir_regex.group()
+    else:
+        work_dir='./'
     file = codecs.open(path, "r", "utf-8")
     file_content = file.read()
     file.close()
@@ -68,7 +72,7 @@ def replace_first(str,a,b):
 def delete_folder(path):
     try:
         shutil.rmtree(path)
-    except OSError as e:
+    except OSError:
         pass
 
 def pre_compile(content):
