@@ -9,6 +9,7 @@ Just put Pytho{N}.py file on you project and stop using ident and :
 
 Examples:
 ```
+python3 Pytho\{N\}.py examples/basic.py
 ./Pytho\{N\}.py examples/basic.py
 ./Pytho\{N\}.py -v 2 examples/basic.py
 ./Pytho\{N\}.py -v 3 examples/basic.py

@@ -79,17 +79,27 @@ def pre_compile(content):
     parsed_lines=""
     lines = content.split('\n')
     needed_tabs=0
+    dictionary=False
     for line in lines:
+        turn_off_dictionary=False
         line=line.strip()
+        if re.match(r'^.*[ |\t]*=[ |\t]*({)\s*(.+})?$', line):
+            dictionary=True
         if re.match(r'^.*}(?=(?:[^\"\']*\"\'[^\"\']*\"\')*[^\"\']*\Z)', line): 
-            line=replace_last(line,'}','')
-            needed_tabs-=1
+            if not dictionary:
+                line=replace_last(line,'}','')
+                needed_tabs-=1
+            else:
+                turn_off_dictionary=True
         if (needed_tabs>0):
             line="\t"*needed_tabs+line
-        if re.match(r'^.*({)\s*$', line):
-            line=replace_last(line,'{',':')
-            needed_tabs+=1
+        if not dictionary:
+            if re.match(r'^.*({)\s*$', line):
+                line=replace_last(line,'{',':')
+                needed_tabs+=1
         parsed_lines+=line+'\n'
+        if turn_off_dictionary:
+            dictionary=False
     return parsed_lines            
 
 def pre_compile_and_save_all_files(source_path):

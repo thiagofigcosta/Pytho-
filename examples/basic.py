@@ -21,4 +21,17 @@ for i in range(10){
 print ("{} Because I rate : and tab".format(i)) # no ident here
 }
 
+single_line_dictionary={"do we support dictionaries?":"Yes, we do support dictionaries"}
+multi_line_dictionary={
+    "Pytho{\}":"Rocks"
+}
+
+print()
+
+print(single_line_dictionary['do we support dictionaries?'])
+
+for key,value in multi_line_dictionary.items(){
+    print(key,value)
+}
+
 ext.print_ext_file()
