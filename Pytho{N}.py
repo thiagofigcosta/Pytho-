@@ -85,7 +85,7 @@ def pre_compile(content):
         line=line.strip()
         if re.match(r'^.*[ |\t]*=[ |\t]*({)\s*(.*})?$', line):
             dictionary=True
-        if re.match(r'^.*}(?=(?:[^\"\']*\"\'[^\"\']*\"\')*[^\"\']*\Z)', line): 
+        if re.match(r'^.*}((?=(?:[^\"\']*\"\'[^\"\']*\"\')*[^\"\']*\Z)|\s*(else|elif))', line): 
             if not dictionary:
                 line=replace_last(line,'}','')
                 needed_tabs-=1
