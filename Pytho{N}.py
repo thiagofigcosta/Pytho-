@@ -94,7 +94,7 @@ def pre_compile(content):
         if (needed_tabs>0):
             line="\t"*needed_tabs+line
         if not dictionary:
-            if re.match(r'^.*({)\s*$', line):
+            if re.match(r'^.*({)\s*(#.*)?$', line):
                 line=replace_last(line,'{',':')
                 needed_tabs+=1
         parsed_lines+=line+'\n'

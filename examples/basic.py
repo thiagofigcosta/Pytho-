@@ -10,7 +10,7 @@ print('Running over Python {}.{}.{}'.format(sys.version_info[0],sys.version_info
 print('Several  tabs            here')
 print('Is 13 greater than 14?')
 
-if 13 > 14{
+if 13 > 14{ # comments after curly brackets
     print('Unfortunately not')
 }else {
     print('NEVER')
