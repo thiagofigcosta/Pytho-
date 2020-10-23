@@ -11,7 +11,7 @@ def print_ext_file(){
         print("elif now is fixed")
     }elif string == "b"{
         pass # you cannot leave me empty :/
-    }elif string == "c"{
+    }   elif string == "c"{
         print("Am I \'c\'?")
     }
 }
