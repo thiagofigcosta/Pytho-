@@ -75,7 +75,7 @@ def delete_folder(path):
     except OSError:
         pass
 
-def pre_compile(content):
+def pre_compile(content,print_out=False):
     parsed_lines=""
     lines = content.split('\n')
     needed_tabs=0
@@ -101,22 +101,24 @@ def pre_compile(content):
         parsed_lines+=line+'\n'
         if turn_off_dictionary:
             dictionary=False
-    # print(parsed_lines)
+    if print_out:
+        print(parsed_lines)
     return parsed_lines            
 
-def pre_compile_and_save_all_files(source_path):
+def pre_compile_and_save_all_files(source_path,print_out=False):
     ext_files=get_custom_imported_files_recursively(source_path)
     for ext_file in ext_files:
-        save_source(TMP_FOLDER+SEPARATOR+ext_file,pre_compile(read_source(ext_file)[0]))
+        save_source(TMP_FOLDER+SEPARATOR+ext_file,pre_compile(read_source(ext_file)[0],print_out=print_out))
 
-def PythoN(python_ver,filename,args=''):
+def PythoN(python_ver,filename,args='',print_cmd=False,print_out=False):
     if filename:
-        pre_compile_and_save_all_files(filename)
+        pre_compile_and_save_all_files(filename,print_out=print_out)
         filename=TMP_FOLDER+SEPARATOR+filename
         full_cmd='python{} {} {}'.format(python_ver,filename,args)
     else:
         full_cmd='python{} {}'.format(python_ver,args)
-    print('{}\n'.format(full_cmd))
+    if print_cmd:
+        print('{}\n'.format(full_cmd))
     try:
         os.system(full_cmd)
     except Exception as e: 
@@ -127,11 +129,13 @@ def PythoN(python_ver,filename,args=''):
 
 
 def main(argv):
-    HELP_STR=r'Pytho{N}.py [-v <value>]'
+    HELP_STR=r'Pytho{N}.py [-v | --version <value>] [--show-cmd] [--print-output]'
     python_ver=3
+    print_cmd=False
+    print_out=False
     args=[]
     try:
-        opts, args = getopt.getopt(argv,"hv:",["version="])
+        opts, args = getopt.getopt(argv,"hv:",["version=","show-cmd","print-output"])
     except getopt.GetoptError:
         print (HELP_STR)
         sys.exit(2)
@@ -141,13 +145,17 @@ def main(argv):
             sys.exit()
         elif opt in ("-v", "--version"):
             python_ver=arg
+        elif opt == "--show-cmd":
+            print_cmd=True
+        elif opt == "--print-output":
+            print_out=True
     sourcename=""
     for arg in args:
         if re.match(r'^.*\.py$', arg):
             sourcename=arg
             args.remove(arg)
             break
-    PythoN(python_ver,sourcename,' '.join(args))
+    PythoN(python_ver,sourcename,' '.join(args),print_cmd=print_cmd,print_out=print_out)
 
 
 if __name__ == "__main__":

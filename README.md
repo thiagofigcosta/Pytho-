@@ -13,6 +13,7 @@ python3 Pytho\{N\}.py examples/basic.py
 ./Pytho\{N\}.py examples/basic.py
 ./Pytho\{N\}.py -v 2 examples/basic.py
 ./Pytho\{N\}.py -v 3 examples/basic.py
+./Pytho\{N\}.py -v 3 --show-cmd --print-output examples/basic.py
 ./Pytho\{N\}.py examples/basic.py --argument to file
 ./Pytho\{N\}.py #iterative shell (here you cannot use {})
 ```
