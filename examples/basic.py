@@ -12,7 +12,7 @@ print('Is 13 greater than 14?')
 
 if 13 > 14{ # comments after curly brackets
     print('Unfortunately not')
-}else {
+} else {  # fixed else if whitespace
     print('NEVER')
 }
 print('')
