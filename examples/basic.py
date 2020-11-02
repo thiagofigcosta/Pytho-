@@ -36,3 +36,14 @@ for key,value in multi_line_dictionary.items(){
 }
 
 ext.print_ext_file()
+
+dict_arr=[]
+dict_arr.append({'dictionaries':'appended inline to array are now supported'})
+dict_arr.append({'help us to improve':'send issues'})
+dict_arr.append({'Workaround Oriented Programming':'for the win'})
+print()
+for dictionary in dict_arr{
+    for k,v in dictionary.items(){
+        print('{} {}'.format(k,v))
+    }
+}
