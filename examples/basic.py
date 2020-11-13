@@ -3,6 +3,7 @@
 import math
 import sys
 import basic_external_file as ext
+import basic_external_regularpy_file as py
 
 print('This is Pytho{\}')
 print('')
@@ -47,3 +48,15 @@ for dictionary in dict_arr{
         print('{} {}'.format(k,v))
     }
 }
+
+py.print_lines()
+
+# Pytho{\}: Start regular Python
+for i in range(2):
+    print()
+text='It is also possible to mix the syntaxes when the regular python syntax is in between \'# Pytho{\}: Start regular Python\' and \'# Pytho{\}: End regular Python\' lines'
+out=''
+for c in list(text):
+    out+=c
+print (out)
+# Pytho{\}: End regular Python
