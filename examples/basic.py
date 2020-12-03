@@ -60,3 +60,13 @@ for c in list(text):
     out+=c
 print (out)
 # Pytho{\}: End regular Python
+
+def printSomething(arg=''){
+    print('Print inside function - '+arg)
+}
+
+print()
+if 'in line ifs works' == 'in line ifs works' { print ('Inline ifs working')}
+if 1==1 {
+    if ('in line ifs works' == 'in line ifs works') { printSomething ('Inline if()s working')}
+}
